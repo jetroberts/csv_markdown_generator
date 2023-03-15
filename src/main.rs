@@ -3,7 +3,7 @@ use std::{fs::File, io::BufReader};
 mod markdown_table;
 
 fn main() {
-    let filepath = "./test.csv";
+    let filepath = "./process.csv";
     let file = File::open(filepath).unwrap();
     let reader = BufReader::new(file);
 

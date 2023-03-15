@@ -4,7 +4,7 @@ use std::{
 };
 
 const BAR: &str = "|";
-const COMMA: &str = ",";
+const SEP: &str = "\t";
 
 pub struct MarkdownTable {
     reader: BufReader<File>,
@@ -17,14 +17,14 @@ pub fn new_markdown_table(reader: BufReader<File>) -> MarkdownTable {
 impl MarkdownTable {
     pub fn create_markdown_table(&mut self) -> Vec<u8> {
         let mut count = 0;
-        let mut output_line: String = "".to_string();
+        let mut output_line: String = String::new();
 
         let col_count = get_col_count(self.reader.by_ref());
 
         let mut max_padding: Vec<usize> = vec![0; col_count];
         for line in self.reader.by_ref().lines() {
             let current_line = line.unwrap();
-            let words = current_line.split(COMMA);
+            let words = current_line.split(SEP);
 
             for (index, word) in words.enumerate() {
                 let word_len = word.len();
@@ -39,7 +39,7 @@ impl MarkdownTable {
         for line in self.reader.by_ref().lines() {
             let cur_line = line.unwrap();
             if count < 1 {
-                let col_count = cur_line.split(COMMA).count();
+                let col_count = cur_line.split(SEP).count();
                 let header = create_line(&cur_line, &max_padding).to_owned();
                 let header_line = create_header_line(col_count, &max_padding);
 
@@ -68,11 +68,11 @@ fn get_col_count(line_iter: &mut BufReader<File>) -> usize {
         None => "".to_string(),
     };
 
-    return header.split(",").count();
+    return header.split(SEP).count();
 }
 
 fn create_line(line: &str, padding: &Vec<usize>) -> String {
-    let words = line.split(",");
+    let words = line.split(SEP);
     let mut padded_words = vec![String::new(); padding.len()];
 
     for (index, word) in words.enumerate() {
