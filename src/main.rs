@@ -1,9 +1,10 @@
-use std::{fs::File, io::BufReader};
+use std::{fs::File, io::BufReader, env};
 
 mod markdown_table;
 
 fn main() {
-    let filepath = "./process.csv";
+    let args: Vec<String> = env::args().collect();
+    let filepath = &args[1];
     let file = File::open(filepath).unwrap();
     let reader = BufReader::new(file);
 
