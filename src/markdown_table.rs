@@ -21,7 +21,7 @@ impl MarkdownTable {
 
         let col_count = get_col_count(self.reader.by_ref());
 
-        let mut max_padding: Vec<usize> = vec![0; col_count];
+        let mut max_padding: Vec<usize> = vec![3; col_count];
         for line in self.reader.by_ref().lines() {
             let current_line = line.unwrap();
             let words = current_line.split(SEP);
